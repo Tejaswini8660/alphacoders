@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Matchmaker</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f7f7f7;
+        }
+        #game-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+        .design-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: 2px dashed gray;
+            width: 300px;
+            height: 300px;
+            margin-bottom: 20px;
+        }
+        #target-design {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: coral;
+            width: 100px;
+            height: 100px;
+        }
+        #player-design {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: lightblue;
+            width: 100px;
+            height: 100px;
+        }
+        #controls {
+            display: flex;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        #feedback {
+            margin-top: 20px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <h1>Design Matchmaker</h1>
+        <p>Match the target design's color, alignment, and size!</p>
+        <div class="design-container">
+            <div id="target-design"></div>
+        </div>
+        <div class="design-container">
+            <div id="player-design"></div>
+        </div>
+        <div id="controls">
+            <button onclick="adjustAlignment()">Toggle Alignment</button>
+            <button onclick="changeColor()">Change Color</button>
+            <button onclick="adjustSize()">Adjust Size</button>
+        </div>
+        <div id="feedback"></div>
+    </div>
+
+    <script>
+        const target = document.getElementById('target-design');
+        const player = document.getElementById('player-design');
+        const feedback = document.getElementById('feedback');
+
+        // Random initial properties for target
+        const alignments = ['flex-start', 'center', 'flex-end'];
+        const colors = ['coral', 'lightgreen', 'yellow', 'purple'];
+        const sizes = [50, 100, 150];
+
+        let targetAlignment = alignments[Math.floor(Math.random() * alignments.length)];
+        let targetColor = colors[Math.floor(Math.random() * colors.length)];
+        let targetSize = sizes[Math.floor(Math.random() * sizes.length)];
+
+        target.style.justifyContent = targetAlignment;
+        target.style.backgroundColor = targetColor;
+        target.style.width = '${targetSize}px';
+        target.style.height = '${targetSize}px';
+
+        // Player properties
+        let playerAlignment = 'center';
+        let playerColor = 'lightblue';
+        let playerSize = 100;
+
+        // Initial player setup
+        player.style.justifyContent = playerAlignment;
+        player.style.backgroundColor = playerColor;
+        player.style.width = '${playerSize}px';
+        player.style.height = '${playerSize}px';
+
+        // Functions to update player properties
+        function adjustAlignment() {
+            const currentIndex = alignments.indexOf(playerAlignment);
+            playerAlignment = alignments[(currentIndex + 1) % alignments.length];
+            player.style.justifyContent = playerAlignment;
+            checkMatch();
+        }
+
+        function changeColor() {
+            const currentIndex = colors.indexOf(playerColor);
+            playerColor = colors[(currentIndex + 1) % colors.length];
+            player.style.backgroundColor = playerColor;
+            checkMatch();
+        }
+
+        function adjustSize() {
+            const currentIndex = sizes.indexOf(playerSize);
+            playerSize = sizes[(currentIndex + 1) % sizes.length];
+            player.style.width = '${playerSize}px';
+            player.style.height =' ${playerSize}px';
+            checkMatch();
+        }
+
+        // Check if player design matches target design
+        function checkMatch() {
+            if (
+                playerAlignment === targetAlignment &&
+                playerColor === targetColor &&
+                playerSize === targetSize
+            ) {
+                feedback.textContent = "🎉 Congratulations! You've matched the target design!";
+                feedback.style.color = "green";
+            } else {
+                feedback.textContent = "Keep trying to match the design!";
+                feedback.style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>
